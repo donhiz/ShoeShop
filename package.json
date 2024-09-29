@@ -12,5 +12,10 @@
     "fs-extra": "^11.2.0",
     "multer": "^1.4.5-lts.1",
     "pug": "^3.0.3"
-  }
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
