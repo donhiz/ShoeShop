@@ -24,10 +24,11 @@
                     <li><a href="">About</a></li>
                     <li><a href="">Contact</a></li>
                     <li><a href="account.html">Account</a></li>
+
                 </ul>
             </nav>
             <a href="cart.html"><img src="images/cart.png" width="30px" height="30px"></a>
-            <img src="images/menu.png" class="menu-icon" onClick="menutoggle()">
+            <img src="images/menu.png" class="menu-icon" onClick="menutoggle()" >
         </div>
     </div>
 </header>
@@ -106,14 +107,15 @@
         <label for="feedback">Your Feedback:</label>
         <textarea id="feedback" name="feedback" rows="4" required
                   data-bs-toggle="tooltip" title="Please provide your feedback here."></textarea>
-        <button type="submit">Submit Feedback</button>
     </form>
 
-    <form id="file-upload-form" action="/upload-file" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
-        <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.pdf"
-               required data-bs-toggle="tooltip" title="Select a file to upload.">
-        <button type="submit">Submit File</button>
+    <h1>Upload File</h1>
+    <form method="POST" enctype="multipart/form-data" action="/">
+        <input type="file" name="image" required />
+        <input type="text" name="otherField" placeholder="Enter a description" required />
+        <button type="submit">Upload</button>
     </form>
+
 
     <aside class="order-summary">
         <h2>Summary (1 item)</h2>
@@ -130,9 +132,9 @@
             <div class="footer-col-1">
                 <h3>Download Our App</h3>
                 <p>Download App for Android and iOS mobile phone.</p>
-                <div class="app-logo">
+                <div class="server-logo">
                     <img src="images/play-store.png" alt="">
-                    <img src="images/app-store.png" alt="">
+                    <img src="images/server-store.png" alt="">
                 </div>
             </div>
             <div class="footer-col-2">
@@ -165,10 +167,12 @@
 
 <script>
 
+
     // Initialize Bootstrap tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
+
     });
 
     document.getElementById('payment-form').addEventListener('submit', function(event) {
@@ -297,6 +301,7 @@
         // If no errors, submit the form
         this.submit();
     });
+
 </script>
 </body>
 </html>
