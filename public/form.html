@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products - Redstore</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo-transparent-png.png" width="125px"></a>
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="">About</a></li>
+                    <li><a href="">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <a href="cart.html"><img src="images/cart.png" width="30px" height="30px"></a>
+            <img src="images/menu.png" class="menu-icon" onClick="menutoggle()">
+        </div>
+    </div>
+</header>
+
+<main class="container mt-5">
+
+    <h1>Payment Form</h1>
+    <div id="paymentErrorMessages" class="alert alert-danger d-none"></div>
+    <form id="payment-form" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="card-number" class="form-label">Card Number:</label>
+            <input type="text" id="card-number" name="card-number" class="form-control"
+                   required data-bs-toggle="tooltip" title="Please enter your card number.">
+        </div>
+
+        <div class="mb-3">
+            <label for="cvv" class="form-label">CVV:</label>
+            <input type="text" id="cvv" name="cvv" class="form-control"
+                   required data-bs-toggle="tooltip" title="Enter 3 or 4 digits CVV.">
+        </div>
+
+        <div class="mb-3">
+            <label for="name-on-card" class="form-label">Name on Card:</label>
+            <input type="text" id="name-on-card" name="name-on-card" class="form-control"
+                   required data-bs-toggle="tooltip" title="Enter the name as it appears on the card.">
+        </div>
+
+        <div class="mb-3">
+            <label for="expiry-date" class="form-label">Expiry Date (MM/YY):</label>
+            <input type="text" id="expiry-date" name="expiry-date" class="form-control"
+                   placeholder="MM/YY" required data-bs-toggle="tooltip" title="Enter expiry date in MM/YY format.">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit Payment</button>
+    </form>
+
+    <h1 class="mt-5">Shipping Form</h1>
+    <div id="shippingErrorMessages" class="alert alert-danger d-none"></div>
+    <form id="shipping-form" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="first-name" class="form-label">First Name:</label>
+            <input type="text" id="first-name" name="first-name" class="form-control"
+                   required data-bs-toggle="tooltip" title="Enter your first name.">
+        </div>
+
+        <div class="mb-3">
+            <label for="last-name" class="form-label">Last Name:</label>
+            <input type="text" id="last-name" name="last-name" class="form-control"
+                   required data-bs-toggle="tooltip" title="Enter your last name.">
+        </div>
+
+        <div class="mb-3">
+            <label for="address" class="form-label">Address:</label>
+            <input type="text" id="address" name="address" class="form-control"
+                   required data-bs-toggle="tooltip" title="Enter your address.">
+        </div>
+
+        <div class="mb-3">
+            <label for="city" class="form-label">City:</label>
+            <input type="text" id="city" name="city" class="form-control"
+                   required data-bs-toggle="tooltip" title="Enter your city.">
+        </div>
+
+        <div class="mb-3">
+            <label for="zip" class="form-label">Zip Code:</label>
+            <input type="text" id="zip" name="zip" class="form-control"
+                   required data-bs-toggle="tooltip" title="Enter your zip code.">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit Shipping</button>
+    </form>
+
+    <h1>Feedback Form</h1>
+    <div id="feedbackErrorMessages" class="alert alert-danger d-none"></div>
+    <form id="feedback-form" action="/submit-feedback" method="POST" class="needs-validation" novalidate>
+        <label for="feedback">Your Feedback:</label>
+        <textarea id="feedback" name="feedback" rows="4" required
+                  data-bs-toggle="tooltip" title="Please provide your feedback here."></textarea>
+        <button type="submit">Submit Feedback</button>
+    </form>
+
+    <form id="file-upload-form" action="/upload-file" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+        <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.pdf"
+               required data-bs-toggle="tooltip" title="Select a file to upload.">
+        <button type="submit">Submit File</button>
+    </form>
+
+    <aside class="order-summary">
+        <h2>Summary (1 item)</h2>
+        <p>Subtotal: $20.00</p>
+        <p>Shipping: $2.20</p>
+        <p>Est Taxes: $1.40</p>
+        <h3>Total: $23.60</h3>
+    </aside>
+</main>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-col-1">
+                <h3>Download Our App</h3>
+                <p>Download App for Android and iOS mobile phone.</p>
+                <div class="app-logo">
+                    <img src="images/play-store.png" alt="">
+                    <img src="images/app-store.png" alt="">
+                </div>
+            </div>
+            <div class="footer-col-2">
+                <img src="images/logo-png.png">
+                <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.</p>
+            </div>
+            <div class="footer-col-3">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li>Coupons</li>
+                    <li>Blog Post</li>
+                    <li>Return Policy</li>
+                    <li>Join Affiliate</li>
+                </ul>
+            </div>
+            <div class="footer-col-4">
+                <h3>Follow us</h3>
+                <ul>
+                    <li>Facebook</li>
+                    <li>Twitter</li>
+                    <li>Instagram</li>
+                    <li>Youtube</li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <p class="copyright">Copyright 2021 - Apurba Kr. P ramanik</p>
+    </div>
+</div>
+
+<script>
+
+    // Initialize Bootstrap tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    document.getElementById('payment-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Clear previous error messages
+        const paymentErrorMessagesDiv = document.getElementById('paymentErrorMessages');
+        paymentErrorMessagesDiv.innerHTML = '';
+        paymentErrorMessagesDiv.classList.add('d-none');
+
+        const errors = []; // Store errors
+
+        // Validate each field
+        const cardNumber = document.getElementById('card-number').value.trim();
+        if (!cardNumber) {
+            errors.push('Please enter your card number.');
+        }
+
+        const cvv = document.getElementById('cvv').value.trim();
+        if (!cvv || cvv.length < 3) {
+            errors.push('CVV must be 3 or 4 digits long.');
+        }
+
+        const nameOnCard = document.getElementById('name-on-card').value.trim();
+        if (!nameOnCard) {
+            errors.push('Please enter the name on the card.');
+        }
+
+        const expiryDate = document.getElementById('expiry-date').value.trim();
+        const expiryDatePattern = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/; // MM/YY format
+        if (!expiryDate || !expiryDatePattern.test(expiryDate)) {
+            errors.push('Please enter a valid expiry date in MM/YY format.');
+        }
+
+        // Show errors if any
+        if (errors.length > 0) {
+            paymentErrorMessagesDiv.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
+            paymentErrorMessagesDiv.classList.remove('d-none');
+            return;
+        }
+
+        // If no errors, submit the form
+        this.submit();
+    });
+
+    document.getElementById('shipping-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Clear previous error messages
+        const shippingErrorMessagesDiv = document.getElementById('shippingErrorMessages');
+        shippingErrorMessagesDiv.innerHTML = '';
+        shippingErrorMessagesDiv.classList.add('d-none');
+
+        const errors = []; // Store errors
+
+        const firstName = document.getElementById('first-name').value.trim();
+        if (!firstName) {
+            errors.push('Please enter your first name.');
+        }
+
+        const lastName = document.getElementById('last-name').value.trim();
+        if (!lastName) {
+            errors.push('Please enter your last name.');
+        }
+
+        const address = document.getElementById('address').value.trim();
+        if (!address) {
+            errors.push('Please enter your address.');
+        }
+
+        const city = document.getElementById('city').value.trim();
+        if (!city) {
+            errors.push('Please enter your city.');
+        }
+
+        const zip = document.getElementById('zip').value.trim();
+        if (!zip || isNaN(zip) || zip.length < 5) {
+            errors.push('Please enter a valid zip code.');
+        }
+
+        // Show errors if any
+        if (errors.length > 0) {
+            shippingErrorMessagesDiv.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
+            shippingErrorMessagesDiv.classList.remove('d-none');
+            return;
+        }
+
+        // If no errors, submit the form
+        this.submit();
+    });
+
+    document.getElementById('feedback-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Clear previous error messages
+        const feedbackErrorMessagesDiv = document.getElementById('feedbackErrorMessages');
+        feedbackErrorMessagesDiv.innerHTML = '';
+        feedbackErrorMessagesDiv.classList.add('d-none');
+
+        const feedback = document.getElementById('feedback').value.trim();
+        if (!feedback) {
+            feedbackErrorMessagesDiv.innerHTML = '<li>Please enter your feedback.</li>';
+            feedbackErrorMessagesDiv.classList.remove('d-none');
+            return;
+        }
+
+        // If no errors, submit the form
+        this.submit();
+    });
+
+    document.getElementById('file-upload-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Clear previous error messages
+        const fileErrorMessagesDiv = document.getElementById('file-upload-error');
+        fileErrorMessagesDiv.innerHTML = '';
+        fileErrorMessagesDiv.classList.add('d-none');
+
+        const fileInput = document.getElementById('file');
+        if (!fileInput.files.length) {
+            fileErrorMessagesDiv.innerHTML = '<li>Please select a file to upload.</li>';
+            fileErrorMessagesDiv.classList.remove('d-none');
+            return;
+        }
+
+        // If no errors, submit the form
+        this.submit();
+    });
+</script>
+</body>
+</html>
