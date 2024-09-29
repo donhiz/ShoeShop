@@ -109,12 +109,12 @@
                   data-bs-toggle="tooltip" title="Please provide your feedback here."></textarea>
     </form>
 
-    <h1>Upload File</h1>
-    <form method="POST" enctype="multipart/form-data" action="/">
-        <input type="file" name="image" required />
-        <input type="text" name="otherField" placeholder="Enter a description" required />
+    <form action="/api/upload" method="POST" enctype="multipart/form-data">
+        <label for="file">Upload an image:</label>
+        <input type="file" name="file" id="file" accept="image/*" required>
         <button type="submit">Upload</button>
     </form>
+
 
 
     <aside class="order-summary">
