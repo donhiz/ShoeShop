@@ -11,9 +11,9 @@
     "express-validator": "^6.15.0",
     "fs-extra": "^11.2.0",
     "multer": "^1.4.5-lts.1",
+    "node-fetch": "^3.3.2",
     "pug": "^3.0.3"
   },
-  "devDependencies": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
