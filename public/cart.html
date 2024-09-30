@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
 <div class="container">
@@ -29,7 +30,9 @@
     </div>
 </div>
 
+<!-- Cart Section -->
 <div class="small-container cart-page">
+    <h2>Your Cart</h2>
     <table id="cartTable">
         <tr class="hi">
             <th>Product</th>
@@ -99,6 +102,41 @@
 </div>
 <button id="checkIn-btn">Check in</button>
 
+<!-- Wishlist Section -->
+<div class="small-container wishlist-page">
+    <h2>Your Wishlist</h2>
+    <table id="wishlistTable">
+        <tr>
+            <th>Product</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td>
+                <div class="cart-info">
+                    <img src="images/buy-1.jpg">
+                    <div>
+                        <p>Red Printed T-Shirt</p>
+                        <small>Price: $50.00</small><br>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="cart-info">
+                    <img src="images/buy-2.jpg">
+                    <div>
+                        <p>Blue Printed T-Shirt</p>
+                        <small>Price: $60.00</small><br>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
 <div class="footer">
     <div class="container">
         <div class="row">
@@ -137,7 +175,6 @@
         <p class="copyright">Copyright 2021 - Apurba Kr. Pramanik</p>
     </div>
 </div>
-
 <script>
     var menuItems = document.getElementById("MenuItems");
     menuItems.style.maxHeight = "0px";
@@ -158,9 +195,50 @@
             row.remove(); // Remove the row from the table
         });
     });
-    document.getElementById("checkIn-btn").addEventListener("click",function () {
+
+    // Function to add an item from the wishlist to the cart
+    function addToCart(event) {
+        const itemRow = event.target.closest('tr'); // Get the closest row of the clicked button
+        const productInfo = itemRow.querySelector('.cart-info'); // Get the product info div
+        const productName = productInfo.querySelector('p').innerText; // Get the product name
+        const productPrice = productInfo.querySelector('small').innerText; // Get the product price
+
+        // Create a new row in the cart for the product
+        const cartTable = document.getElementById('cartTable');
+        const newRow = cartTable.insertRow(-1); // Insert a new row at the end of the cart table
+
+        newRow.innerHTML = `
+            <td>
+                <div class="cart-info">
+                    <img src="${productInfo.querySelector('img').src}"> <!-- Use the same image -->
+                    <div>
+                        <p>${productName}</p>
+                        <small>${productPrice}</small><br>
+                        <a href="#" class="remove-item">Remove</a>
+                    </div>
+                </div>
+            </td>
+            <td><input type="number" value="1"></td>
+            <td>${productPrice}</td>
+        `;
+
+        // Add event listener to the new "Remove" link
+        newRow.querySelector('.remove-item').addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default link behavior
+            newRow.remove(); // Remove the row from the table
+        });
+    }
+
+    // Add event listeners to all "Add to Cart" buttons in the wishlist
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', addToCart);
+    });
+
+    document.getElementById("checkIn-btn").addEventListener("click", function () {
         window.location.href = "form.html";
     });
 </script>
+
+
 </body>
 </html>
