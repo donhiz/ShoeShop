@@ -644,3 +644,11 @@ textarea {
 .is-valid {
     border-color: #28a745; /* Green border for valid inputs */
 }
+.add-to-cart{
+    max-width: 1080px;
+    margin: auto;
+    padding-left: 25px;
+    padding-right: 25px;
+    display:flex;
+    justify-content: space-between;
+}

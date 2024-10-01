@@ -1,0 +1,179 @@
+doctype html
+html(lang="en")
+    head
+        title Your Cart - Redstore
+        link(rel="stylesheet" href="css/style.css")
+        link(rel="preconnect" href="https://fonts.gstatic.com")
+        link(href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet")
+        link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+    body
+        .container
+            .navbar
+                .logo
+                    a(href="index.html")
+                        img(src="images/logo-transparent-png.png", width="125px", alt="Redstore Logo")
+                nav
+                    ul#MenuItems
+                        li: a(href="index.html") Home
+                        li: a(href="products.html") Products
+                        li: a(href="") About
+                        li: a(href="") Contact
+                        li: a(href="account.html") Account
+                    a(href="cart.html")
+                        img(src="images/cart.png", width="30px", height="30px", alt="Cart Icon")
+
+        //- Cart Section
+        .small-container.cart-page
+            h2 Your Cart
+            table#cartTable
+                tr.hi
+                    th Product
+                    th Quantity
+                    th Subtotal
+                    th Action
+                //- Loop through cartItems array
+                each item in cartItems
+                    tr
+                        td
+                            .cart-info
+                                img(src=item.image, alt=item.name)
+                                div
+                                    p= item.name
+                                    small Price: $#{item.price.toFixed(2)}
+                        td
+                            input(type="number", value=item.quantity, min="1", class="quantity-input")
+                        td $#{(item.price * item.quantity).toFixed(2)}
+                        td
+                            form(action="/remove-from-cart", method="POST")
+                                input(type="hidden", name="productId", value=item.id)
+                                button(type="submit", class="remove-item") Remove
+
+            .total-price
+                table
+                    tr
+                        td Subtotal
+                        td $#{subtotal.toFixed(2)}
+                    tr
+                        td Tax
+                        td $#{tax.toFixed(2)}
+                    tr
+                        td Total
+                        td $#{(subtotal + tax).toFixed(2)}
+
+            button#checkOut-btn Check Out
+
+        //- Wishlist Section
+        .small-container.wishlist-page
+            h2 Your Wishlist
+            table#wishlistTable
+                tr
+                    th Product
+                    th Action
+                //- Loop through wishlistItems array
+                each item in wishlistItems
+                    tr
+                        td
+                            .cart-info
+                                img(src=item.image, alt=item.name)
+                                div
+                                    p= item.name
+                                    small Price: $#{item.price.toFixed(2)}
+                                    br
+                                    button.add-to-cart Add to Cart
+                        td
+                            form(action="/remove-from-wishlist", method="POST")
+                                input(type="hidden", name="productId", value=item.id)
+                                button(type="submit", class="remove-item") Remove
+
+        .footer
+            .container
+                .row
+                    .footer-col-1
+                        h3 Download Our App
+                        p Download App for Android and iOS mobile phone.
+                        .server-logo
+                            img(src="images/play-store.png", alt="Play Store")
+                            img(src="images/server-store.png", alt="Server Store")
+                    .footer-col-2
+                        img(src="images/logo-png.png", alt="Redstore Logo")
+                        p Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.
+                    .footer-col-3
+                        h3 Useful Links
+                        ul
+                            li Coupons
+                            li Blog Post
+                            li Return Policy
+                            li Join Affiliate
+                    .footer-col-4
+                        h3 Follow us
+                        ul
+                            li Facebook
+                            li Twitter
+                            li Instagram
+                            li Youtube
+                hr
+                p.copyright Copyright 2021 - Apurba Kr. Pramanik
+
+        //- Include your JavaScript code at the end of the body
+        script.
+            var menuItems = document.getElementById("MenuItems");
+            menuItems.style.maxHeight = "0px";
+
+            function menutoggle() {
+                if (menuItems.style.maxHeight === "0px") {
+                    menuItems.style.maxHeight = "200px";
+                } else {
+                    menuItems.style.maxHeight = "0px";
+                }
+            }
+
+            // Function to remove an item from the cart
+            document.querySelectorAll('.remove-item').forEach(item => {
+                item.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent the default link behavior
+                    var row = this.closest('tr'); // Get the closest row
+                    row.remove(); // Remove the row from the table
+                });
+            });
+
+            // Function to add an item from the wishlist to the cart
+            function addToCart(event) {
+                const itemRow = event.target.closest('tr'); // Get the closest row of the clicked button
+                const productInfo = itemRow.querySelector('.cart-info'); // Get the product info div
+                const productName = productInfo.querySelector('p').innerText; // Get the product name
+                const productPrice = productInfo.querySelector('small').innerText; // Get the product price
+
+                // Create a new row in the cart for the product
+                const cartTable = document.getElementById('cartTable');
+                const newRow = cartTable.insertRow(-1); // Insert a new row at the end of the cart table
+
+                newRow.innerHTML = `
+              <td>
+                  <div class="cart-info">
+                      <img src="${productInfo.querySelector('img').src}" alt="${productName}"> <!-- Use the same image -->
+                      <div>
+                          <p>${productName}</p>
+                          <small>${productPrice}</small><br>
+                          <a href="#" class="remove-item">Remove</a>
+                      </div>
+                  </div>
+              </td>
+              <td><input type="number" value="1" min="1" class="quantity-input"></td>
+              <td>${productPrice}</td>
+    `;
+
+// Add event listener to the new "Remove" link
+newRow.querySelector('.remove-item').addEventListener('click', function (event) {
+event.preventDefault(); // Prevent the default link behavior
+    newRow.remove(); // Remove the row from the table
+});
+}
+
+// Add event listeners to all "Add to Cart" buttons in the wishlist
+document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', addToCart);
+    });
+
+document.getElementById("checkOut-btn").addEventListener("click", function () {
+    window.location.href = "form.html"; // Redirect to checkout form
+});

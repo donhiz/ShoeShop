@@ -24,7 +24,6 @@
                     <li><a href="">About</a></li>
                     <li><a href="">Contact</a></li>
                     <li><a href="account.html">Account</a></li>
-
                 </ul>
             </nav>
             <a href="cart.html"><img src="images/cart.png" width="30px" height="30px"></a>
@@ -107,17 +106,18 @@
         <label for="feedback">Your Feedback:</label>
         <textarea id="feedback" name="feedback" rows="4" required
                   data-bs-toggle="tooltip" title="Please provide your feedback here."></textarea>
+        <button type="submit" class="btn btn-primary mt-2">Submit Feedback</button>
     </form>
 
-    <form action="/api/upload" method="POST" enctype="multipart/form-data">
+
+    <form action="/api/upload" method="POST" enctype="multipart/form-data" id="file-upload-form">
         <label for="file">Upload an image:</label>
         <input type="file" name="file" id="file" accept="image/*" required>
-        <button type="submit">Upload</button>
+        <div id="file-upload-error" class="alert alert-danger d-none"></div>
+        <button type="submit" class="btn btn-primary mt-2">Upload</button>
     </form>
 
-
-
-    <aside class="order-summary">
+    <aside class="order-summary mt-5">
         <h2>Summary (1 item)</h2>
         <p>Subtotal: $20.00</p>
         <p>Shipping: $2.20</p>
@@ -126,7 +126,7 @@
     </aside>
 </main>
 
-<div class="footer">
+<div class="footer mt-5">
     <div class="container">
         <div class="row">
             <div class="footer-col-1">
@@ -166,15 +166,13 @@
 </div>
 
 <script>
-
-
     // Initialize Bootstrap tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
-
     });
 
+    // Payment Form Submission
     document.getElementById('payment-form').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent form submission
 
@@ -192,32 +190,34 @@
         }
 
         const cvv = document.getElementById('cvv').value.trim();
-        if (!cvv || cvv.length < 3) {
-            errors.push('CVV must be 3 or 4 digits long.');
+        if (!cvv) {
+            errors.push('Please enter your CVV.');
         }
 
         const nameOnCard = document.getElementById('name-on-card').value.trim();
         if (!nameOnCard) {
-            errors.push('Please enter the name on the card.');
+            errors.push('Please enter your name on card.');
         }
 
         const expiryDate = document.getElementById('expiry-date').value.trim();
-        const expiryDatePattern = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/; // MM/YY format
-        if (!expiryDate || !expiryDatePattern.test(expiryDate)) {
-            errors.push('Please enter a valid expiry date in MM/YY format.');
+        if (!expiryDate) {
+            errors.push('Please enter your card expiry date.');
         }
 
-        // Show errors if any
+        // If errors exist, display them
         if (errors.length > 0) {
-            paymentErrorMessagesDiv.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
+            paymentErrorMessagesDiv.innerHTML = errors.join('<br>');
             paymentErrorMessagesDiv.classList.remove('d-none');
-            return;
-        }
+        } else {
+            // Save data to localStorage for simulation
+            localStorage.setItem('paymentInfo', JSON.stringify({ cardNumber, cvv, nameOnCard, expiryDate }));
 
-        // If no errors, submit the form
-        this.submit();
+            // Show success message
+            alert('Payment information saved!');
+        }
     });
 
+    // Shipping Form Submission
     document.getElementById('shipping-form').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent form submission
 
@@ -228,6 +228,7 @@
 
         const errors = []; // Store errors
 
+        // Validate each field
         const firstName = document.getElementById('first-name').value.trim();
         if (!firstName) {
             errors.push('Please enter your first name.');
@@ -249,59 +250,23 @@
         }
 
         const zip = document.getElementById('zip').value.trim();
-        if (!zip || isNaN(zip) || zip.length < 5) {
-            errors.push('Please enter a valid zip code.');
+        if (!zip) {
+            errors.push('Please enter your zip code.');
         }
 
-        // Show errors if any
+        // If errors exist, display them
         if (errors.length > 0) {
-            shippingErrorMessagesDiv.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
+            shippingErrorMessagesDiv.innerHTML = errors.join('<br>');
             shippingErrorMessagesDiv.classList.remove('d-none');
-            return;
+        } else {
+            // Save data to localStorage for simulation
+            localStorage.setItem('shippingInfo', JSON.stringify({ firstName, lastName, address, city, zip }));
+
+            // Show success message
+            alert('Shipping information saved!');
         }
-
-        // If no errors, submit the form
-        this.submit();
     });
-
-    document.getElementById('feedback-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form submission
-
-        // Clear previous error messages
-        const feedbackErrorMessagesDiv = document.getElementById('feedbackErrorMessages');
-        feedbackErrorMessagesDiv.innerHTML = '';
-        feedbackErrorMessagesDiv.classList.add('d-none');
-
-        const feedback = document.getElementById('feedback').value.trim();
-        if (!feedback) {
-            feedbackErrorMessagesDiv.innerHTML = '<li>Please enter your feedback.</li>';
-            feedbackErrorMessagesDiv.classList.remove('d-none');
-            return;
-        }
-
-        // If no errors, submit the form
-        this.submit();
-    });
-
-    document.getElementById('file-upload-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form submission
-
-        // Clear previous error messages
-        const fileErrorMessagesDiv = document.getElementById('file-upload-error');
-        fileErrorMessagesDiv.innerHTML = '';
-        fileErrorMessagesDiv.classList.add('d-none');
-
-        const fileInput = document.getElementById('file');
-        if (!fileInput.files.length) {
-            fileErrorMessagesDiv.innerHTML = '<li>Please select a file to upload.</li>';
-            fileErrorMessagesDiv.classList.remove('d-none');
-            return;
-        }
-
-        // If no errors, submit the form
-        this.submit();
-    });
-
 </script>
+
 </body>
 </html>

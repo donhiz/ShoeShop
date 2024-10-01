@@ -74,21 +74,14 @@ app.use('/api', uploadRoutes); // Mount the upload route under '/api'
 // Set Pug as the templating engine
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+app.get('/wishlist.html', (req,res) =>{
+    const wishlist = [
+        { name: 'Red Printed T-Shirt', price: 50.00, image: 'images/buy-1.jpg' },
+        { name: 'Blue Printed T-Shirt', price: 60.00, image: 'images/buy-2.jpg' }
+    ];
+    res.render('wishlist',(wishlist));
+});
 
-// Serve static files from the 'public' directory
-app.use(express.static('public'));
-
-// Sample product and wishlist data
-const products = [
-    { name: 'Red Printed T-Shirt', price: 50.00, image: 'images/buy-1.jpg' },
-    { name: 'Blue Printed T-Shirt', price: 60.00, image: 'images/buy-2.jpg' },
-    { name: 'Green Printed T-Shirt', price: 55.00, image: 'images/buy-3.jpg' }
-];
-
-const wishlist = [
-    { name: 'Red Printed T-Shirt', price: 50.00, image: 'images/buy-1.jpg' },
-    { name: 'Blue Printed T-Shirt', price: 60.00, image: 'images/buy-2.jpg' }
-];
 
 // Route to render the cart and wishlist page
 app.get('/cart', (req, res) => {
