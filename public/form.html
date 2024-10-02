@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Products - Redstore</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <title>Payment and Shipping Form</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header>
@@ -32,74 +29,54 @@
     </div>
 </header>
 
-<main class="container mt-5">
-
-    <h1>Payment Form</h1>
-    <div id="paymentErrorMessages" class="alert alert-danger d-none"></div>
-    <form id="payment-form" class="needs-validation" novalidate>
+<div class="container mt-5">
+    <h2>Payment Form</h2>
+    <form id="payment-form">
         <div class="mb-3">
-            <label for="card-number" class="form-label">Card Number:</label>
-            <input type="text" id="card-number" name="card-number" class="form-control"
-                   required data-bs-toggle="tooltip" title="Please enter your card number.">
+            <label for="card-number" class="form-label">Card Number</label>
+            <input type="text" class="form-control" id="card-number" name="card-number" required>
         </div>
-
         <div class="mb-3">
-            <label for="cvv" class="form-label">CVV:</label>
-            <input type="text" id="cvv" name="cvv" class="form-control"
-                   required data-bs-toggle="tooltip" title="Enter 3 or 4 digits CVV.">
+            <label for="cvv" class="form-label">CVV</label>
+            <input type="text" class="form-control" id="cvv" name="cvv" required>
         </div>
-
         <div class="mb-3">
-            <label for="name-on-card" class="form-label">Name on Card:</label>
-            <input type="text" id="name-on-card" name="name-on-card" class="form-control"
-                   required data-bs-toggle="tooltip" title="Enter the name as it appears on the card.">
+            <label for="name-on-card" class="form-label">Name on Card</label>
+            <input type="text" class="form-control" id="name-on-card" name="name-on-card" required>
         </div>
-
         <div class="mb-3">
-            <label for="expiry-date" class="form-label">Expiry Date (MM/YY):</label>
-            <input type="text" id="expiry-date" name="expiry-date" class="form-control"
-                   placeholder="MM/YY" required data-bs-toggle="tooltip" title="Enter expiry date in MM/YY format.">
+            <label for="expiry-date" class="form-label">Expiry Date (MM/YY)</label>
+            <input type="text" class="form-control" id="expiry-date" name="expiry-date" required>
         </div>
-
         <button type="submit" class="btn btn-primary">Submit Payment</button>
     </form>
 
-    <h1 class="mt-5">Shipping Form</h1>
-    <div id="shippingErrorMessages" class="alert alert-danger d-none"></div>
-    <form id="shipping-form" class="needs-validation" novalidate>
-        <div class="mb-3">
-            <label for="first-name" class="form-label">First Name:</label>
-            <input type="text" id="first-name" name="first-name" class="form-control"
-                   required data-bs-toggle="tooltip" title="Enter your first name.">
-        </div>
+    <hr class="my-5">
 
+    <h2>Shipping Form</h2>
+    <form id="shipping-form">
         <div class="mb-3">
-            <label for="last-name" class="form-label">Last Name:</label>
-            <input type="text" id="last-name" name="last-name" class="form-control"
-                   required data-bs-toggle="tooltip" title="Enter your last name.">
+            <label for="first-name" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="first-name" name="first-name" required>
         </div>
-
         <div class="mb-3">
-            <label for="address" class="form-label">Address:</label>
-            <input type="text" id="address" name="address" class="form-control"
-                   required data-bs-toggle="tooltip" title="Enter your address.">
+            <label for="last-name" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="last-name" name="last-name" required>
         </div>
-
         <div class="mb-3">
-            <label for="city" class="form-label">City:</label>
-            <input type="text" id="city" name="city" class="form-control"
-                   required data-bs-toggle="tooltip" title="Enter your city.">
+            <label for="address" class="form-label">Address</label>
+            <input type="text" class="form-control" id="address" name="address" required>
         </div>
-
         <div class="mb-3">
-            <label for="zip" class="form-label">Zip Code:</label>
-            <input type="text" id="zip" name="zip" class="form-control"
-                   required data-bs-toggle="tooltip" title="Enter your zip code.">
+            <label for="city" class="form-label">City</label>
+            <input type="text" class="form-control" id="city" name="city" required>
         </div>
-
+        <div class="mb-3">
+            <label for="zip" class="form-label">Zip Code</label>
+            <input type="text" class="form-control" id="zip" name="zip" required>
+        </div>
         <button type="submit" class="btn btn-primary">Submit Shipping</button>
     </form>
-
     <h1>Feedback Form</h1>
     <div id="feedbackErrorMessages" class="alert alert-danger d-none"></div>
     <form id="feedback-form" action="/submit-feedback" method="POST" class="needs-validation" novalidate>
@@ -124,149 +101,50 @@
         <p>Est Taxes: $1.40</p>
         <h3>Total: $23.60</h3>
     </aside>
-</main>
+    </main>
 
-<div class="footer mt-5">
-    <div class="container">
-        <div class="row">
-            <div class="footer-col-1">
-                <h3>Download Our App</h3>
-                <p>Download App for Android and iOS mobile phone.</p>
-                <div class="server-logo">
-                    <img src="images/play-store.png" alt="">
-                    <img src="images/server-store.png" alt="">
+    <div class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Download Our App</h3>
+                    <p>Download App for Android and iOS mobile phone.</p>
+                    <div class="server-logo">
+                        <img src="images/play-store.png" alt="">
+                        <img src="images/server-store.png" alt="">
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <img src="images/logo-png.png">
+                    <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.</p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <li>Coupons</li>
+                        <li>Blog Post</li>
+                        <li>Return Policy</li>
+                        <li>Join Affiliate</li>
+                    </ul>
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>Youtube</li>
+                    </ul>
                 </div>
             </div>
-            <div class="footer-col-2">
-                <img src="images/logo-png.png">
-                <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.</p>
-            </div>
-            <div class="footer-col-3">
-                <h3>Useful Links</h3>
-                <ul>
-                    <li>Coupons</li>
-                    <li>Blog Post</li>
-                    <li>Return Policy</li>
-                    <li>Join Affiliate</li>
-                </ul>
-            </div>
-            <div class="footer-col-4">
-                <h3>Follow us</h3>
-                <ul>
-                    <li>Facebook</li>
-                    <li>Twitter</li>
-                    <li>Instagram</li>
-                    <li>Youtube</li>
-                </ul>
-            </div>
+            <hr>
+            <p class="copyright">Copyright 2021 - Apurba Kr. P ramanik</p>
         </div>
-        <hr>
-        <p class="copyright">Copyright 2021 - Apurba Kr. P ramanik</p>
     </div>
+
 </div>
 
-<script>
-    // Initialize Bootstrap tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-
-    // Payment Form Submission
-    document.getElementById('payment-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form submission
-
-        // Clear previous error messages
-        const paymentErrorMessagesDiv = document.getElementById('paymentErrorMessages');
-        paymentErrorMessagesDiv.innerHTML = '';
-        paymentErrorMessagesDiv.classList.add('d-none');
-
-        const errors = []; // Store errors
-
-        // Validate each field
-        const cardNumber = document.getElementById('card-number').value.trim();
-        if (!cardNumber) {
-            errors.push('Please enter your card number.');
-        }
-
-        const cvv = document.getElementById('cvv').value.trim();
-        if (!cvv) {
-            errors.push('Please enter your CVV.');
-        }
-
-        const nameOnCard = document.getElementById('name-on-card').value.trim();
-        if (!nameOnCard) {
-            errors.push('Please enter your name on card.');
-        }
-
-        const expiryDate = document.getElementById('expiry-date').value.trim();
-        if (!expiryDate) {
-            errors.push('Please enter your card expiry date.');
-        }
-
-        // If errors exist, display them
-        if (errors.length > 0) {
-            paymentErrorMessagesDiv.innerHTML = errors.join('<br>');
-            paymentErrorMessagesDiv.classList.remove('d-none');
-        } else {
-            // Save data to localStorage for simulation
-            localStorage.setItem('paymentInfo', JSON.stringify({ cardNumber, cvv, nameOnCard, expiryDate }));
-
-            // Show success message
-            alert('Payment information saved!');
-        }
-    });
-
-    // Shipping Form Submission
-    document.getElementById('shipping-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form submission
-
-        // Clear previous error messages
-        const shippingErrorMessagesDiv = document.getElementById('shippingErrorMessages');
-        shippingErrorMessagesDiv.innerHTML = '';
-        shippingErrorMessagesDiv.classList.add('d-none');
-
-        const errors = []; // Store errors
-
-        // Validate each field
-        const firstName = document.getElementById('first-name').value.trim();
-        if (!firstName) {
-            errors.push('Please enter your first name.');
-        }
-
-        const lastName = document.getElementById('last-name').value.trim();
-        if (!lastName) {
-            errors.push('Please enter your last name.');
-        }
-
-        const address = document.getElementById('address').value.trim();
-        if (!address) {
-            errors.push('Please enter your address.');
-        }
-
-        const city = document.getElementById('city').value.trim();
-        if (!city) {
-            errors.push('Please enter your city.');
-        }
-
-        const zip = document.getElementById('zip').value.trim();
-        if (!zip) {
-            errors.push('Please enter your zip code.');
-        }
-
-        // If errors exist, display them
-        if (errors.length > 0) {
-            shippingErrorMessagesDiv.innerHTML = errors.join('<br>');
-            shippingErrorMessagesDiv.classList.remove('d-none');
-        } else {
-            // Save data to localStorage for simulation
-            localStorage.setItem('shippingInfo', JSON.stringify({ firstName, lastName, address, city, zip }));
-
-            // Show success message
-            alert('Shipping information saved!');
-        }
-    });
-</script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="validation.js"></script>
 </body>
 </html>

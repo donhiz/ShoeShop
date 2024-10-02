@@ -1,5 +1,5 @@
 const express = require('express');
-const { validationResult } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 const path = require('path');
 const paymentValidation = require('./routes/payment');
 const shippingValidation = require('./routes/shipping');
@@ -7,12 +7,54 @@ const uploadRoutes = require('./routes/upload');
 // Use node-fetch for making API requests in Node.js
 
 const app = express();
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 const PORT = process.env.PORT || 3000;
 
 // Serve the HTML files
-app.get('/form.html', (req, res) => res.sendFile(path.join(__dirname, 'public', 'form.html')));
+app.get('/form.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'form.html'));
+});
+// POST route for payment form validation
+app.post('/submit-payment', [
+    body('card-number').isCreditCard().withMessage('Please enter a valid card number.'),
+    body('cvv').isLength({ min: 3, max: 4 }).withMessage('CVV must be 3 or 4 digits.'),
+    body('name-on-card').notEmpty().withMessage('Name on card is required.'),
+    body('expiry-date').matches(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/).withMessage('Please enter a valid expiry date (MM/YY).'),
+    body('card-number').custom(value => {
+        if (value.length !== 16) {
+            throw new Error('Card number must be 16 digits.');
+        }
+        return true;
+    })
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    res.send('Payment processed');
+});
+
+// POST route for shipping form validation
+app.post('/submit-shipping', [
+    body('first-name').notEmpty().withMessage('First name is required.'),
+    body('last-name').notEmpty().withMessage('Last name is required.'),
+    body('address').notEmpty().withMessage('Address is required.'),
+    body('city').notEmpty().withMessage('City is required.'),
+    body('zip').isPostalCode('US').withMessage('Please enter a valid US zip code.'),
+    body('zip').custom(value => {
+        if (!/^\d{5}$/.test(value)) {
+            throw new Error('Zip code must be exactly 5 digits.');
+        }
+        return true;
+    })
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    res.send('Shipping details saved');
+});
 app.get('/account.html', (req, res) => res.sendFile(path.join(__dirname, 'public', 'account.html')));
 app.get('/cart.html', (req, res) => res.sendFile(path.join(__dirname, 'public', 'cart.html')));
 app.get('/index.html', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
