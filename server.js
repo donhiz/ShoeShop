@@ -86,29 +86,13 @@ app.get('/get-ip-info', async (req, res) => {
     }
 });
 
-// Payment form route
-app.post('/submit-form', paymentValidation, (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-    res.json({ message: 'Payment details received successfully' });
-});
-// Handle POST request for /submit-feedback
+// // Handle POST request for /submit-feedback
 app.post('/submit-feedback', (req, res) => {
     const feedback = req.body.feedback;
     console.log('Feedback received:', feedback);
     res.send('Feedback received successfully!');
 });
 
-// Shipping form route
-app.post('/submit-shipping', shippingValidation, (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-    res.json({ message: 'Shipping details received successfully' });
-});
 
 // File upload route
 app.use('/api', uploadRoutes); // Mount the upload route under '/api'
