@@ -1,0 +1,30 @@
+html
+    head
+        title IP Information
+        script(src="../public/js/ipinfo.js") // External JS file for interactivity
+    body
+        h1 IP Geolocation Info
+        table#ip-table
+            thead
+                tr
+                    th(onclick="sortTable(0)") IP Address
+                    th(onclick="sortTable(1)") City
+                    th(onclick="sortTable(2)") Country
+                    th Latitude
+                    th Longitude
+                    th Action
+            tbody
+                each entry in data
+                    tr
+                        td= entry.ip
+                        td= entry.city
+                        td= entry.country
+                        td= entry.latitude
+                        td= entry.longitude
+                        td
+                            button(onclick="removeRow(this)") Remove
+
+        // Fallback if no data is available
+        if !data.length
+            p No data available.
+

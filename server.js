@@ -20,27 +20,28 @@ app.get('/products.html', (req, res) => res.sendFile(path.join(__dirname, 'publi
 app.get('/products-details.html', (req, res) => res.sendFile(path.join(__dirname, 'public', 'products-details.html')));
 
 // New route to handle the API call
-app.get('/get-ip-info', async(req, res) => {
-    const fetch = await import('node-fetch');
+// Updated API route to get IP info and render it on the page
+app.get('/get-ip-info', async (req, res) => {
+    const fetch = (await import('node-fetch')).default;
     const apiUrl = "https://ipgeolocation.abstractapi.com/v1/?api_key=a2b182b2cd84480e825d583f772bbef0&ip_address=24.72.109.103";
 
-    fetch.default(apiUrl)
-        .then(response => response.json()) // Parse the JSON response
-        .then(data => {
-            // Map the needed properties from the response
-            const simplifiedData = {
-                ip: data.ip_address,
-                city: data.city,
-                country: data.country,
-                latitude: data.latitude,
-                longitude: data.longitude
-            };
-            res.json(simplifiedData); // Send the simplified data to the client
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            res.status(500).json({ error: 'Failed to fetch data' });
-        });
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        const simplifiedData = [{
+            ip: data.ip_address,
+            city: data.city,
+            country: data.country,
+            latitude: data.latitude,
+            longitude: data.longitude
+        }];
+
+        // Render a Pug template and pass the simplified data
+        res.render('ipinfo', { data: simplifiedData });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
 });
 
 // Payment form route
