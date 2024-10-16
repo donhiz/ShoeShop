@@ -1,18 +1,113 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const path = require('path');
-const paymentValidation = require('./routes/payment');
-const shippingValidation = require('./routes/shipping');
 const uploadRoutes = require('./routes/upload');
-// Use node-fetch for making API requests in Node.js
+const passport = require('passport');
+const session=require('express-session');
+const {memoryStorage} = require("multer");
+const LocalStrategy=require('passport-local').Strategy;
+const mockUsers=require('./Users');
+require('dotenv').config();
 
 const app = express();
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
 const PORT = process.env.PORT || 3000;
 
+
+// middle setup
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
+
+//setup middleware
+app.use(session({
+    secret: 'anonystick',          // Required: secret used to sign the session ID cookie
+    resave: false,                // Don't save session if unmodified
+    saveUninitialized: false,     // Don't create session until something is stored
+    cookie: {
+        maxAge: 60000             // Optional: set cookie expiration time (in milliseconds)
+    }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Passport Local Strategy (Authentication logic)
+passport.use(new LocalStrategy((username, password, done) => {
+    const user = mockUsers.find(user => user.username === username && user.password === password);
+    if (!user) {
+        return done(null, false, { message: 'Incorrect username or password' });
+    }
+    return done(null, user);
+}));
+
+// Serialize user to session
+passport.serializeUser((user, done) => {
+    done(null, user.username);
+});
+
+// Deserialize user from session
+passport.deserializeUser((username, done) => {
+    console.log(`username is: ${username}`);
+    try{
+        //Find the user and password from mockUsers, make sure they exist
+        const findUser = mockUsers.find((user) => user.username === username)
+        // If user object is not found throw exception to be caught in the catch section
+        if (!findUser) {throw new Error ('User not found');}
+        //if user exists and password is correct call the done function
+        //the done() function which takes 2 parameters an error and a user value
+        done(null, findUser)
+
+    }
+    catch(err){
+//call done when catching the error too
+        done(err, null)
+    }
+})
+// Route for rendering login page
+app.get('/account', (req, res) => {
+    if (req.isAuthenticated()) {
+        return res.redirect('/index'); // If already logged in, redirect to products
+    }
+    res.sendFile(path.join(__dirname, 'public', 'account.html')); // Serve your login page
+});
+// Middleware to ensure authentication for all other routes
+function isAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/account'); // Redirect to login if not authenticated
+}
+app.get('/account', (req, res) => {
+    if (req.isAuthenticated()) {
+        return res.redirect('/index'); // Redirect to index if already logged in
+    }
+    res.sendFile(path.join(__dirname, 'public', 'account.html')); // Serve login page
+});
+// Protecting
+app.get('/index', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html')); // Serve index page
+});
+app.get('/products', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'products.html')); // Serve index page
+});
+app.get('/cart', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'carts.html')); // Serve index page
+});
+app.get('/products-details', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'products-details.html')); // Serve index page
+});
+app.get('/form', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'form.html')); // Serve index page
+});
+
+// app.use(ensureAuthenticated);
+app.post('/account', passport.authenticate('local', {
+    successRedirect: '/index',
+    failureRedirect: '/account',
+    failureFlash: true,
+}));
+
 // Serve the HTML files
-app.get('/form.html', (req, res) => {
+app.get('/form', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'form.html'));
 });
 // POST route for payment form validation
@@ -55,11 +150,11 @@ app.post('/submit-shipping', [
     }
     res.send('Shipping details saved');
 });
-app.get('/account.html', (req, res) => res.sendFile(path.join(__dirname, 'public', 'account.html')));
-app.get('/cart.html', (req, res) => res.sendFile(path.join(__dirname, 'public', 'cart.html')));
-app.get('/index.html', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
-app.get('/products.html', (req, res) => res.sendFile(path.join(__dirname, 'public', 'products.html')));
-app.get('/products-details.html', (req, res) => res.sendFile(path.join(__dirname, 'public', 'products-details.html')));
+// app.get('/account', (req, res) => res.sendFile(path.join(__dirname, 'public', 'account.html')));
+// app.get('/cart', (req, res) => res.sendFile(path.join(__dirname, 'public', 'cart.html')));
+// app.get('/index', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
+// app.get('/products', (req, res) => res.sendFile(path.join(__dirname, 'public', 'products.html')));
+// app.get('/products-details', (req, res) => res.sendFile(path.join(__dirname, 'public', 'products-details.html')));
 
 // New route to handle the API call
 // Updated API route to get IP info and render it on the page
