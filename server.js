@@ -18,9 +18,25 @@ const PORT = process.env.PORT || 3000;
 connectDB();
 
 // middle setup
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
+
+//test routes
+app.get('/api/user', (req, res) => {
+    res.send('Server is working!');
+});
+
+// Import user routes
+const userAPIRoutes = require('./routes/userAPIRoutes');
+const productAPIRoutes = require('./routes/productAPIRoutes');
+const orderAPIRoutes= require('./routes/orderAPIRoutes');
+
+// Import the file
+app.use('/api', userAPIRoutes); // Use the imported routes
+app.use('/api', productAPIRoutes);
+app.use('/api', orderAPIRoutes);
+
 
 //setup middleware
 app.use(session({
