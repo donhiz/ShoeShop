@@ -8,10 +8,14 @@ const {memoryStorage} = require("multer");
 const LocalStrategy=require('passport-local').Strategy;
 const mockUsers=require('./Users');
 require('dotenv').config();
+const connectDB = require('./config/db');
+require('dotenv').config(); // Load environment variables
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+//connect to MongoDB
+connectDB();
 
 // middle setup
 app.use(express.urlencoded({ extended: false }));
