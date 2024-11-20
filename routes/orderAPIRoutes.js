@@ -35,7 +35,7 @@ router.get('/orders/:id', async (req, res) => {
 });
 
 // Update an order
-router.put('/orders/:id', async (req, res) => {
+router.post('/orders/:id', async (req, res) => {
     try {
         const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedOrder) return res.status(404).json({ message: 'Order not found' });

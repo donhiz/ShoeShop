@@ -35,7 +35,7 @@ router.get('/users/:id', async (req, res) => {
 });
 
 // Update a customer
-router.put('/users/:id', async (req, res) => {
+router.post('/users/:id', async (req, res) => {
     try {
         const updatedCustomer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedCustomer) return res.status(404).json({ message: 'Customer not found' });

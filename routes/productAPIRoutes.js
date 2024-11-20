@@ -35,7 +35,7 @@ router.get('/products/:id', async (req, res) => {
 });
 
 // Update a product
-router.put('/products/:id', async (req, res) => {
+router.post('/products/:id', async (req, res) => {
     try {
         const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedProduct) return res.status(404).json({ message: 'Product not found' });
