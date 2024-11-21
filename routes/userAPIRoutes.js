@@ -1,5 +1,6 @@
 const express = require('express');
 const Customer = require('../models/user'); // Adjust the path as necessary
+const authMiddleware = require('../middleware/authMiddleware.js');
 const router = express.Router();
 
 // Create a customer
@@ -11,7 +12,7 @@ router.post('/users', async (req, res) => {
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
-});
+}); ///
 
 // Get all customers
 router.get('/users', async (req, res) => {

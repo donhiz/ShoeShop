@@ -9,7 +9,7 @@ const LocalStrategy=require('passport-local').Strategy;
 const mockUsers=require('./Users');
 require('dotenv').config();
 const connectDB = require('./config/db');
-require('dotenv').config(); // Load environment variables
+// require('dotenv').config(); // Load environment variables
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,16 +31,18 @@ app.get('/api/user', (req, res) => {
 const userAPIRoutes = require('./routes/userAPIRoutes');
 const productAPIRoutes = require('./routes/productAPIRoutes');
 const orderAPIRoutes= require('./routes/orderAPIRoutes');
+const loginAPIRoutes = require('./routes/loginAPIRoutes');
 
 // Import the file
 app.use('/api', userAPIRoutes); // Use the imported routes
 app.use('/api', productAPIRoutes);
 app.use('/api', orderAPIRoutes);
+app.use('/api', loginAPIRoutes);
 
 
 //setup middleware
 app.use(session({
-    secret: 'anonystick',          // Required: secret used to sign the session ID cookie
+    secret: process.env.SECRET,          // Required: secret used to sign the session ID cookie
     resave: false,                // Don't save session if unmodified
     saveUninitialized: false,     // Don't create session until something is stored
     cookie: {

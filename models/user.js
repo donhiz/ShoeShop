@@ -8,7 +8,11 @@ const customerSchema = new mongoose.Schema({
     isActive: { type: Boolean, default: true },
     isVerified: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
-    updateAt: { type: Date }
+    updateAt: { type: Date },
+    accessLevel: {  type: String,
+                    enum:['read','write','admin'],
+                    required:true,},
+
 });
 
 module.exports = mongoose.model('user', customerSchema);

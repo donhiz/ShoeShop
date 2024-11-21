@@ -1,9 +1,11 @@
 const express = require('express');
 const Product = require('../models/product'); // Adjust the path as necessary
+const authMiddleware = require('../middleware/authMiddleware.js');
+
 const router = express.Router();
 
 // Create a new product
-router.post('/products', async (req, res) => {
+router.post('/products', authMiddleware,async (req, res) => {
     try {
         const product = new Product(req.body);
         const savedProduct = await product.save();
@@ -46,7 +48,7 @@ router.post('/products/:id', async (req, res) => {
 });
 
 // Delete a product
-router.delete('/products/:id', async (req, res) => {
+router.delete('/products/:id', authMiddleware, async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);
         if (!deletedProduct) return res.status(404).json({ message: 'Product not found' });
