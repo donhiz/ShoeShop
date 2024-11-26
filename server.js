@@ -245,3 +245,25 @@ app.listen(PORT, () => {
 });
 
 
+// const response = await fetch('http://localhost:3000/api/products', {
+//     method: 'POST',
+//     headers: {
+//         'Content-Type': 'application/json',
+//         // Add authorization header if needed (optional in this case)
+//         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQ0YmI0OWRhZmYzZDIxMzU4NTMzMTYiLCJhY2Nlc3NMZXZlbCI6ImFkbWluIiwiaWF0IjoxNzMyNTc0NjU2LCJleHAiOjE3MzUxNjY2NTZ9.lZ1Q2wruAE4TTRxyH3IOlyulAszOE0oTG4_CwgmifNU'  // Replace with a valid JWT token if required
+//     },
+//     body:JSON.stringify({
+//         "id": 36,
+//         "brand": "New Balance",
+//         "size": 9,
+//         "rating": "4.2",
+//         "price": 90,
+//         "releaseDate": "2023-08-01T12:00:00Z",
+//         "quantityInStock": 100,
+//         "category": "Walking",
+//         "color": "Grey",
+//         "imgUrl": "https://example.com/newbalance_grey_walking_shoe.jpg"
+//     })
+// })
+// const data = await response.json();
+// console.log(data);
