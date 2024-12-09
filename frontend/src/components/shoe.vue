@@ -1,36 +1,50 @@
 <template>
-  <div>
-    <h2>Shoe Shop</h2>
-    <div v-if="isAdmin">
-      <button @click="showAddProduct = !showAddProduct">Add New Product</button>
-      <div v-if="showAddProduct">
+  <div class="container">
+    <h2 class="page-title">Shoe Shop</h2>
+    <div v-if="isAdmin" class="admin-controls">
+      <button @click="showAddProduct = !showAddProduct" class="toggle-button">Add New Product</button>
+      <div v-if="showAddProduct" class="add-product-form">
         <form @submit.prevent="addProduct">
           <input v-model="newProduct.name" placeholder="Shoe Name" />
           <input v-model="newProduct.brand" placeholder="Brand" />
           <input v-model="newProduct.price" placeholder="Price" type="number" />
           <input v-model="newProduct.size" placeholder="Size" type="number" />
           <input v-model="newProduct.quantityInStock" placeholder="Stock" type="number" />
-          <input v-model="newProduct.id" placeholder="Stock" type="number" />
-          <input v-model="newProduct.rating" placeholder="Stock" type="number" />
-          <input v-model="newProduct.releaseDate" placeholder="Stock" type="date" />
-          <input v-model="newProduct.category" placeholder="Stock" type="text" />
-          <input v-model="newProduct.color" placeholder="Stock" type="text" />
-          <input v-model="newProduct.imgUrl" placeholder="Stock" type="text" />
-          <button type="submit">Add Product</button>
+          <input v-model="newProduct.id" placeholder="ID" type="number" />
+          <input v-model="newProduct.rating" placeholder="Rating" type="number" />
+          <input v-model="newProduct.releaseDate" placeholder="Release Date" type="date" />
+          <input v-model="newProduct.category" placeholder="Category" type="text" />
+          <input v-model="newProduct.color" placeholder="Color" type="text" />
+          <input v-model="newProduct.imgUrl" placeholder="Image URL" type="text" />
+          <button type="submit" class="submit-button">Add Product</button>
         </form>
       </div>
     </div>
 
-    <ul>
-      <li v-for="shoe in shoes" :key="shoe._id">
-        {{ shoe.name }} - ${{ shoe.price }} - {{ shoe.stock }} in stock
-        <span v-if="isAdmin">
-          <button @click="deleteProduct(shoe._id)">Delete</button>
+    <ul class="product-list">
+      <li v-for="shoe in shoes" :key="shoe._id" class="product-card">
+        <div class="product-image">
+          <img :src="shoe.imgUrl" alt="Shoe Image" />
+        </div>
+        <div class="product-info">
+          <h3>{{ shoe.name }}</h3>
+          <p>Brand: {{ shoe.brand }}</p>
+          <p>Size: {{ shoe.size }}</p>
+          <p class="price">Price: ${{ shoe.price }}</p>
+          <p class="stock">Stock: {{ shoe.quantityInStock }}</p>
+          <p class="rating">Rating: {{ shoe.rating }}</p>
+          <p>Category: {{ shoe.category }}</p>
+          <p>Color: {{ shoe.color }}</p>
+        </div>
+        <span v-if="isAdmin" class="admin-actions">
+          <button @click="deleteProduct(shoe._id)" class="delete-button">Delete</button>
         </span>
       </li>
     </ul>
   </div>
 </template>
+
+
 
 <script>
 import axios from 'axios';
@@ -121,3 +135,121 @@ export default {
   },
 };
 </script>
+<style scoped>
+/* Expand the Add Product Form */
+.add-product-form form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  width: 100%;
+  max-width: 800px; /* Increase the max width to make the form larger */
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-product-form input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  margin: 5px 0;
+}
+
+.add-product-form button {
+  grid-column: span 2;
+  padding: 12px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-product-form button:hover {
+  background-color: #45a049;
+}
+
+/* Other Styles */
+.container {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 1200px;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.admin-controls {
+  margin-bottom: 20px;
+}
+
+.toggle-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.toggle-button:hover {
+  background-color: #45a049;
+}
+
+/* Product List */
+.product-list {
+  list-style-type: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+.product-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.product-info {
+  margin-top: 15px;
+}
+
+.price {
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.admin-actions {
+  text-align: center;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #e53935;
+}
+</style>

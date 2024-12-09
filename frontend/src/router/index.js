@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import LoginForm from "../components/LoginForm.vue";
 import ShowForm from "../components/shoe.vue"; // Show form for products (shoe)
 import IndexPage from "../components/index.vue";
+import DetailsPage from "../components/shoeDetails.vue";
 
 const routes = [
     { path: "/login", name: "Login", component: LoginForm },
@@ -15,7 +16,9 @@ const routes = [
             }
         },
      }, // Shoe form for adding, editing, or deleting products
-    { path: "/", name: "IndexPage", component: IndexPage },
+    { path: "/" + "", name: "IndexPage", component: IndexPage },
+    { path: "/shoeDetails", name: "ProductDetails", component: DetailsPage},
+
 ];
 
 const router = createRouter({
