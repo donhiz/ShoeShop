@@ -1,19 +1,22 @@
 <template>
   <div class="container">
     <h1 class="page-title">Welcome to the Shoe Shop</h1>
+
     <section class="product-list">
       <h2>Shoe Details</h2>
-      <div class="product-card" v-for="shoe in shoes" :key="shoe.id">
-        <div class="product-image">
-          <img :src="shoe.imgUrl" alt="Shoe image" v-if="shoe.imgUrl" />
-        </div>
-        <div class="product-info">
-          <h3>{{ shoe.brand }} - {{ shoe.size }}</h3>
-          <p class="price">${{ shoe.price }}</p>
-          <p class="rating">Rating: {{ shoe.rating || 'No rating available' }}</p>
-          <p class="category">Category: {{ shoe.category }}</p>
-          <p class="stock">In Stock: {{ shoe.quantityInStock }}</p>
-          <p class="release-date">Release Date: {{ shoe.releaseDate ? new Date(shoe.releaseDate).toLocaleDateString() : 'N/A' }}</p>
+      <div class="product-cards">
+        <div class="product-card" v-for="shoe in shoes" :key="shoe.id">
+          <div class="product-image">
+            <img :src="shoe.imgUrl" alt="Shoe image" v-if="shoe.imgUrl" />
+          </div>
+          <div class="product-info">
+            <h3>{{ shoe.brand }} - {{ shoe.size }}</h3>
+            <p class="price">${{ shoe.price }}</p>
+            <p class="rating">Rating: {{ shoe.rating || 'No rating available' }}</p>
+            <p class="category">Category: {{ shoe.category }}</p>
+            <p class="stock">In Stock: {{ shoe.quantityInStock }}</p>
+            <p class="release-date">Release Date: {{ shoe.releaseDate ? new Date(shoe.releaseDate).toLocaleDateString() : 'N/A' }}</p>
+          </div>
         </div>
       </div>
     </section>
@@ -27,7 +30,7 @@
         <p><strong>Payment Method:</strong> {{ order.paymentMethod }}</p>
         <p><strong>Status:</strong> {{ order.status }}</p>
         <p><strong>Order Date:</strong> {{ new Date(order.orderDate).toLocaleDateString() }}</p>
-        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -89,15 +92,25 @@ export default {
   padding-bottom: 10px;
 }
 
+/* Container for product cards, using flexbox to align items horizontally */
+.product-cards {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping to the next line if space is insufficient */
+  gap: 20px;
+  max-height: 600px; /* Set a max-height to create a scrollable area */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
+}
+
 /* Individual product cards */
 .product-card {
   display: flex;
   background-color: #fff;
   padding: 20px;
-  margin-bottom: 20px;
+  width: 300px; /* Adjusted width for a wider box */
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  flex-shrink: 0; /* Prevents shrinking to fit within the container */
 }
 
 .product-card:hover {
@@ -117,6 +130,8 @@ export default {
 .product-info {
   flex: 1;
   padding-left: 20px;
+  /* Increase width of product info to ensure it fits the content */
+  max-width: 180px; /* Set max width for product info to make sure text fits */
 }
 
 /* Price and text styling */

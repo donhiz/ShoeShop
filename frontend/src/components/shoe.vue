@@ -56,7 +56,7 @@ export default {
     return {
       shoes: [],
       showAddProduct: false,
-      newProduct: { name: '', brand: '', price: 0, size: 0, quantityInStock: 0 , id: 0,rating:0,releaseDate:0, category: '', color:'',imgUrl:''},
+      newProduct: { name: '', brand: '', price: 'prize', size: 'size', quantityInStock: 'quantity' , id: 'id',rating:'rating',releaseDate:'releaseDate', category: '', color:'',imgUrl:''},
       isAdmin: false,
     };
   },
@@ -135,14 +135,13 @@ export default {
   },
 };
 </script>
-<style scoped>
-/* Expand the Add Product Form */
+<style>/* Expand the Add Product Form */
 .add-product-form form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
   width: 100%;
-  max-width: 800px; /* Increase the max width to make the form larger */
+  max-width: 800px;
   padding: 20px;
   background-color: #f7f7f7;
   border-radius: 8px;
@@ -205,20 +204,32 @@ export default {
   background-color: #45a049;
 }
 
-/* Product List */
+/* Product List - Horizontal Layout */
 .product-list {
-  list-style-type: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap to the next line when space is limited */
+  justify-content: flex-start; /* Align items to the left */
   gap: 20px;
+  max-height: 600px; /* Set a max height to trigger scrolling */
+  overflow-y: auto; /* Enables scrolling when the list exceeds the height */
 }
 
+/* Scrollable when there are more than 3 products */
+.product-list > li {
+  flex: 1 1 300px; /* Allow product cards to shrink and grow with a base size */
+}
+
+/* Product Card */
 .product-card {
+  width: 300px; /* Increased width for more details */
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 15px;
+  padding: 20px; /* Increased padding for spacing */
+  text-align: left; /* Align content to the left */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .product-card img {
@@ -229,6 +240,11 @@ export default {
 
 .product-info {
   margin-top: 15px;
+  font-size: 0.9rem; /* Adjust font size for readability */
+}
+
+.product-info p {
+  margin: 5px 0; /* Space between product details */
 }
 
 .price {
