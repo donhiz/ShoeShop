@@ -5,7 +5,7 @@ import IndexPage from "../components/index.vue";
 import DetailsPage from "../components/shoeDetails.vue";
 
 const routes = [
-    { path: "/login", name: "Login", component: LoginForm },
+    { path: "/login", name: "Login", component: LoginForm,props: (route) => ({fromIndex: route.params.fromIndex||false}) },
     { path: "/shoe", name: "ShoeItem", component: ShowForm,
         beforeEnter: (to, from, next) => {
             const role = localStorage.getItem('role');

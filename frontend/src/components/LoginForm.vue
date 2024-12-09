@@ -1,6 +1,6 @@
 <template>
   <div class="login-form">
-    <h2>Login</h2>
+    <h2>{{ headerMessage }}</h2>
     <form @submit.prevent="handleLogin">
       <div>
         <label for="username">Username:</label>
@@ -12,12 +12,24 @@
       </div>
       <button type="submit">Login</button>
     </form>
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+    <p v-if="errorMessage" :class="errorClass">{{ errorMessage }}</p>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    headerMessage: {
+      type: String,
+      required: false,
+      default: "Login",
+    },
+    errorClass: {
+      type: String,
+      required: false,
+      default: "error",
+    },
+  },
   data() {
     return {
       username: "",
@@ -46,22 +58,20 @@ export default {
         }
 
         const { token, role } = await response.json();
-        console.log("Login successful. Token:", token, "Role:", role);  // Log the role and token
+        console.log("Login successful. Token:", token, "Role:", role);
 
-        // Save token and role in localStorage
         localStorage.setItem("Token", token);
         localStorage.setItem("role", role);
 
-        // Redirect to correct page based on role
         if (role === "admin") {
           console.log("Redirecting to Admin dashboard.");
-          this.$router.push("/shoe");  // Admin page
-        }else if (role === "read") {
-          console.log("Redirecting to read dashboard.");
-          this.$router.push("/shoeDetails");  // Admin page
+          this.$router.push("/shoe");
+        } else if (role === "read") {
+          console.log("Redirecting to Read dashboard.");
+          this.$router.push("/shoeDetails");
         } else {
           console.log("Redirecting to User dashboard.");
-          this.$router.push("/");  // Regular user page
+          this.$router.push("/");
         }
       } catch (error) {
         console.error("Error logging in:", error);
