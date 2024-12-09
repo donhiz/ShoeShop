@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <title>All Products - Redstore</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+
+
+<!------------------------------ account-page details------------------------------>
+
+<div class="account-page">
+    <div class="container">
+        <div class="logo">
+            <a href="index.html"><img src="images/logo-transparent-png.png" width="125px"></a>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <img src="images/image1.png" width="100%">
+            </div>
+            <div class="col-2">
+                <div class="form-container">
+                    <div class="form-btn">
+                        <span onclick="login()">Login</span>
+                        <span onclick="register()">Register</span>
+                        <hr id="Indicator">
+                    </div>
+                    <form action="/account" method="post" id="LoginForm">
+                        <input type="text" name="username" id="username" placeholder="username" required>
+                        <input type="password" name="password" id="password" placeholder="password" required autocomplete="current-password">
+
+                        <button type="submit" class="btn">Login</button>
+                        <a href="">Forgot password</a>
+                        <label for="remember-me">
+                            <input type="checkbox" id="remember-me" name="remember-me"> Remember Me
+                        </label>
+                    </form>
+
+                    <form id="RegForm">
+                        <input type="text" placeholder="username">
+                        <input type="password" placeholder="password">
+                        <button type="submit" class="btn">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!----------------------------------footer------------------------------------->
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-col-1">
+                <h3>Download Our App</h3>
+                <p>Download App for Android and iOS mobile phones.</p>
+                <div class="server-logo">
+                    <img src="images/play-store.png" alt="">
+                    <img src="images/server-store.png" alt="">
+                </div>
+            </div>
+            <div class="footer-col-2">
+                <img src="images/logo-png.png">
+                <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.</p>
+            </div>
+            <div class="footer-col-3">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li>Coupons</li>
+                    <li>Blog Post</li>
+                    <li>Return Policy</li>
+                    <li>Join Affiliate</li>
+                </ul>
+            </div>
+            <div class="footer-col-4">
+                <h3>Follow us</h3>
+                <ul>
+                    <li>Facebook</li>
+                    <li>Twitter</li>
+                    <li>Instagram</li>
+                    <li>Youtube</li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+
+<!--&lt;!&ndash;-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;js for toggle menu&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+<!--<script>-->
+<!--    var menuItems = document.getElementById("MenuItems");-->
+<!--    menuItems.style.maxHeight = "0px";-->
+<!--    function menutoggle() {-->
+<!--        if (menuItems.style.maxHeight == "0px") {-->
+<!--            menuItems.style.maxHeight = "200px";-->
+<!--        } else {-->
+<!--            menuItems.style.maxHeight = "0px";-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+
+<!-----------------------------------js for toggle form-------------------------------------->
+<script>
+    var LoginForm = document.getElementById("LoginForm");
+    var RegForm = document.getElementById("RegForm");
+    var Indicator = document.getElementById("Indicator");
+
+    function register() {
+        RegForm.style.transform = "translateX(0px)";
+        LoginForm.style.transform = "translateX(0px)";
+        Indicator.style.transform = "translateX(100px)"
+    }
+    function login() {
+        RegForm.style.transform = "translateX(300px)";
+        LoginForm.style.transform = "translateX(300px)";
+        Indicator.style.transform = "translateX(0px)";
+    }
+</script>
+
+<!----------------------------------- Remember Me Feature ----------------------------------->
+<script>
+    // Function to set a cookie
+    function setCookie(name, value, days) {
+        const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+        document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+    }
+
+    // Function to get a cookie value
+    function getCookie(name) {
+        const cookieArr = document.cookie.split("; ");
+        for (let cookie of cookieArr) {
+            const [key, value] = cookie.split("=");
+            if (key === name) {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    // Handle form submission
+    document.getElementById("LoginForm").addEventListener("submit", function (event) {
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+        const rememberMeCheckbox = document.getElementById("remember-me");
+
+        // If "remember me" is checked, set the cookies
+        if (rememberMeCheckbox.checked) {
+            setCookie("username", usernameInput.value, 60); // Save username for 60 days
+            setCookie("password", passwordInput.value, 60); // Save password for 60 days
+        } else {
+            setCookie("username", "", -1); // Delete the username cookie if unchecked
+            setCookie("password", "", -1); // Delete the password cookie if unchecked
+        }
+    });
+
+    // Fill in the username and password inputs from cookies when the page loads
+    window.onload = function () {
+        const savedUsername = getCookie("username");
+        const savedPassword = getCookie("password");
+
+        if (savedUsername) {
+            document.getElementById("username").value = savedUsername;
+            document.getElementById("remember-me").checked = true; // Check the box if a username is saved
+        }
+
+        if (savedPassword) {
+            // Attempt to set the password value
+            document.getElementById("password").value = savedPassword;
+            // Note: Some browsers may block this for security reasons
+        }
+    };
+
+</script>
+
+</body>
+</html>

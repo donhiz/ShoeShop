@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Page - Redstore</title>
+    <link rel="stylesheet" href="css/style.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="css/cart.css"> <!-- Link to your cart CSS file -->
+</head>
+<body>
+<!--<div class ="header">-->
+<div class="container">
+    <div class="navbar">
+        <div class="logo">
+            <a href="index.html"><img src="images/logo-transparent-png.png" width="125px"></a>
+        </div>
+        <nav>
+            <ul id="MenuItems">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="">About</a></li>
+                <li><a href="">Contact</a></li>
+                <li><a href="account.html">Account</a></li>
+
+            </ul>
+        </nav>
+        <a href="cart.html"><img src="images/cart.png" width="30px" height="30px"></a>
+        <img src="images/menu.png" class="menu-icon" onClick="menutoggle()" >
+    </div>
+
+</div>
+<!--</div>-->
+<div class="container">
+    <h2>Your Cart</h2>
+    <table id="cartTable">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+        </tr>
+    </table>
+
+    <div class="total-price">
+        <table id="totalPriceTable">
+            <tr>
+                <td>Subtotal</td>
+                <td id="subtotal">$0.00</td>
+            </tr>
+            <tr>
+                <td>Tax</td>
+                <td id="tax">$0.00</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td id="total">$0.00</td>
+            </tr>
+        </table>
+    </div>
+    <button id="checkIn-btn">Check in</button>
+    <h2>Your Wishlist</h2>
+    <div id="wishlist">
+        <!-- Wishlist items will be dynamically inserted here -->
+    </div>
+</div>
+<!----------------------------------footer------------------------------------->
+<div class ="footer">
+    <div class="container">
+
+        <div class="row">
+            <div class="footer-col-1">
+                <h3>Download Our App</h3>
+                <p>Download App for Android and ios mobile phone.</p>
+                <div class="server-logo">
+                    <img src="images/play-store.png" alt="">
+                    <img src="images/server-store.png" alt="">
+                </div>
+            </div>
+            <div class="footer-col-2">
+                <img src="images/logo-png.png">
+                <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.</p>
+            </div>
+            <div class="footer-col-3">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li>Coupons</li>
+                    <li>Blog Post</li>
+                    <li>Return Policy</li>
+                    <li>Join Affiliate</li>
+                </ul>
+            </div>
+            <div class="footer-col-4">
+                <h3>Follow us</h3>
+                <ul>
+                    <li>Facebook</li>
+                    <li>Twitter</li>
+                    <li>Instagram</li>
+                    <li>Youtube</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!--<script src="../routes/cart.js"></script> &lt;!&ndash; Link to your JavaScript file &ndash;&gt;-->
+</body>
+<script>
+const cartItems = [
+    { id: 1, name: "Red Printed T-Shirt", price: 50.00, quantity: 1, image: "images/buy-1.jpg" },
+    { id: 2, name: "Blue Printed T-Shirt", price: 60.00, quantity: 1, image: "images/buy-2.jpg" },
+    { id: 3, name: "Green Printed T-Shirt", price: 55.00, quantity: 1, image: "images/buy-3.jpg" }
+];
+
+
+const wishlistItems = [
+    { id: 4, name: "Black Hoodie", price: 80.00, image: "images/buy-1.jpg" },
+    { id: 5, name: "White Sneakers", price: 90.00, image: "images/buy-3.jpg" }
+];
+
+const cartTable = document.getElementById('cartTable');
+const wishlistContainer = document.getElementById('wishlist');
+
+function updateCart() {
+    let subtotal = 0;
+    // Clear the cart table first
+    cartTable.innerHTML = `
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+        </tr>
+    `;
+
+    cartItems.forEach(item => {
+        const row = cartTable.insertRow();
+        row.innerHTML = `
+            <td>
+                <div class="cart-info">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div>
+                        <p>${item.name}</p>
+                        <small>Price: $${item.price.toFixed(2)}</small><br>
+                        <a href="#" class="remove-item">Remove</a>
+                    </div>
+                </div>
+            </td>
+            <td><input type="number" value="${item.quantity}" min="1" class="quantity-input"></td>
+            <td>$${(item.price * item.quantity).toFixed(2)}</td>
+        `;
+
+        subtotal += item.price * item.quantity;
+
+        // Add event listener for removing item
+        row.querySelector('.remove-item').addEventListener('click', function (event) {
+            event.preventDefault();
+            cartItems.splice(cartItems.indexOf(item), 1); // Remove item from array
+            updateCart(); // Recalculate cart totals
+        });
+    });
+
+    document.getElementById('subtotal').innerText = `$${subtotal.toFixed(2)}`;
+    const tax = subtotal * 0.15; // Example tax rate of 15%
+    document.getElementById('tax').innerText = `$${tax.toFixed(2)}`;
+    document.getElementById('total').innerText = `$${(subtotal + tax).toFixed(2)}`;
+}
+
+function updateWishlist() {
+    wishlistContainer.innerHTML = ''; // Clear existing wishlist items
+    wishlistItems.forEach(item => {
+        const wishlistItem = document.createElement('div');
+        wishlistItem.className = 'wishlist-item';
+        wishlistItem.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div>
+                <p>${item.name}</p>
+                <small>Price: $${item.price.toFixed(2)}</small><br>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+        `;
+        wishlistContainer.appendChild(wishlistItem);
+
+        // Add event listener for adding item to cart
+        wishlistItem.querySelector('.add-to-cart-btn').addEventListener('click', function () {
+            // Check if item already exists in cart
+            const existingItem = cartItems.find(cartItem => cartItem.id === item.id);
+            if (existingItem) {
+                // Increase quantity if item already in cart
+                existingItem.quantity++;
+            } else {
+                // Add new item to cart
+                cartItems.push({ ...item, quantity: 1 });
+            }
+            updateCart(); // Update cart after adding item
+        });
+    });
+}
+
+// Update the cart and wishlist initially
+updateCart();
+updateWishlist();
+
+// Event listener for "Check in" button
+document.getElementById("checkIn-btn").addEventListener("click", function () {
+    window.location.href = "form.html"; // Redirect to form page
+});
+
+// Add event listener for quantity change
+document.querySelectorAll('.quantity-input').forEach(input => {
+    input.addEventListener('change', function () {
+        const quantity = parseInt(this.value);
+        const row = this.closest('tr');
+        const price = parseFloat(row.querySelector('small').innerText.replace('Price: $', ''));
+        const subtotalCell = row.querySelector('td:nth-child(3)');
+        subtotalCell.innerText = `$${(price * quantity).toFixed(2)}`;
+        updateCart(); // Recalculate cart totals
+    });
+});
+</script>
+</html>
