@@ -10,7 +10,7 @@ const mockUsers=require('./Users');
 require('dotenv').config();
 const connectDB = require('./config/db');
 // require('dotenv').config(); // Load environment variables
-
+const bodyParser = require('body-parser')
 const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require("cors");
@@ -22,6 +22,7 @@ connectDB();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
+app.use(bodyParser.json({ limit: '10mb' }));
 
 //test routes
 app.get('/api/user', (req, res) => {

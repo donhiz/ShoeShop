@@ -28,7 +28,7 @@ console.log("test")
             { expiresIn: oneMonthInSeconds } // Expiration time for token
         );
         console.log(token);
-        res.json({ token }); // Send token back to user
+        res.json({ token: token , role: user.accessLevel}); // Send token back to user
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ message: 'Server error' });

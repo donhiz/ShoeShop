@@ -1,25 +1,27 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LoginForm from "../components/LoginForm.vue";
-import Dashboard from "../views/Dashboard.vue"; // Example dashboard view
+import ShowForm from "../components/shoe.vue"; // Show form for products (shoe)
+import IndexPage from "../components/index.vue";
 
 const routes = [
     { path: "/login", name: "Login", component: LoginForm },
-    { path: "/dashboard", name: "Dashboard", component: Dashboard },
+    { path: "/shoe", name: "ShoeItem", component: ShowForm,
+        beforeEnter: (to, from, next) => {
+            const role = localStorage.getItem('role');
+            if (role === 'admin') {
+                next(); // Allow access to the Shoe page for admin
+            } else {
+                next('/user-dashboard'); // Redirect non-admin users to the user dashboard
+            }
+        },
+     }, // Shoe form for adding, editing, or deleting products
+    { path: "/", name: "IndexPage", component: IndexPage },
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory(),
     routes,
 });
 
-// Add navigation guards to check for authentication
-router.beforeEach((to, from, next) => {
-    const isAuthenticated = localStorage.getItem("jwtToken"); // Check for JWT token
-    if (to.name === "Dashboard" && !isAuthenticated) {
-        next("/login");
-    } else {
-        next();
-    }
-});
 
 export default router;

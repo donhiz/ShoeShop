@@ -7,6 +7,9 @@ const router = express.Router();
 // Create a new product
 router.post('/products', authMiddleware,async (req, res) => {
     try {
+
+        console.log(req.body)
+        console.log("yeah")
         const product = new Product(req.body);
         const savedProduct = await product.save();
         res.status(201).json(savedProduct);
