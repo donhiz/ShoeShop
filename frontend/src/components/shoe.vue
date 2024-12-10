@@ -62,7 +62,19 @@ export default {
     return {
       shoes: [],
       showAddProduct: false,
-      newProduct: { name: '', brand: '', price: 'prize', size: 'size', quantityInStock: 'quantity' , id: 'id',rating:'rating',releaseDate:'releaseDate', category: '', color:'',imgUrl:''},
+      newProduct: {
+        name: '',
+        brand: '',
+        price: 'prize',
+        size: 'size',
+        quantityInStock: 'quantity',
+        id: 'id',
+        rating: 'rating',
+        releaseDate: 'releaseDate',
+        category: '',
+        color: '',
+        imgUrl: ''
+      },
       isAdmin: false,
     };
   },
@@ -92,23 +104,23 @@ export default {
       console.log(token)
       try {
         // await axios.post('http://localhost:3000/api/products', {
-        const response = await fetch("http://localhost:3000/api/products",{
+        const response = await fetch("http://localhost:3000/api/products", {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',  // Add this header
           },
-          body:JSON.stringify({
+          body: JSON.stringify({
                 id: this.newProduct.id,
                 brand: this.newProduct.brand,
-                size:  this.newProduct.size,
-                rating:  this.newProduct.rating,
-                price:  this.newProduct.price,
-                releaseDate:  this.newProduct.releaseDate,
-            quantityInStock:  this.newProduct.quantityInStock,
-                category:  this.newProduct.category,
-                color:  this.newProduct.color,
-                imgUrl:  this.newProduct.imgUrl,
+                size: this.newProduct.size,
+                rating: this.newProduct.rating,
+                price: this.newProduct.price,
+                releaseDate: this.newProduct.releaseDate,
+                quantityInStock: this.newProduct.quantityInStock,
+                category: this.newProduct.category,
+                color: this.newProduct.color,
+                imgUrl: this.newProduct.imgUrl,
               }
           )
         });
@@ -128,18 +140,22 @@ export default {
     async deleteProduct(id) {
       const token = localStorage.getItem('token');
       try {
+        // Use proper string interpolation with backticks and quotes around the URL
         await axios.delete(`http://localhost:3000/api/products/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        this.shoes = this.shoes.filter(shoe => shoe._id !== id);
+
+        // Update the local shoe list by removing the deleted item
+        this.shoes = this.shoes.filter((shoe) => shoe._id !== id);
       } catch (err) {
         console.error('Failed to delete product', err);
       }
-    },
+    }
   },
-};
+}
+
 </script>
 <style>/* Expand the Add Product Form */
 /* Expand the Add Product Form */
