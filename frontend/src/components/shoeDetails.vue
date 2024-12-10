@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <div class="logo">
+      <a href="/"><img src="/image/logo-transparent-frontend.png" width="125px" alt="Logo"></a>
+    </div>
     <h1 class="page-title">Welcome to the Shoe Shop</h1>
 
     <section class="product-list">
@@ -42,10 +45,21 @@ export default {
     return {
       shoes: [],
       orders: [],
+      isDragging: false,
+      startX: 0,
+      scrollLeft: 0,
     };
   },
   created() {
     this.fetchData();
+  },
+  mounted() {
+    // Add event listeners to enable dragging functionality on .product-cards
+    const productCards = this.$el.querySelector('.product-cards');
+    productCards.addEventListener('mousedown', this.startDrag);
+    productCards.addEventListener('mouseleave', this.stopDrag);
+    productCards.addEventListener('mouseup', this.stopDrag);
+    productCards.addEventListener('mousemove', this.drag);
   },
   methods: {
     async fetchData() {
@@ -61,6 +75,22 @@ export default {
         console.error('Error fetching data:', error);
       }
     },
+    startDrag(event) {
+      this.isDragging = true;
+      this.startX = event.pageX - this.$el.querySelector('.product-cards').offsetLeft;
+      this.scrollLeft = this.$el.querySelector('.product-cards').scrollLeft;
+      this.$el.querySelector('.product-cards').style.cursor = 'grabbing';
+    },
+    stopDrag() {
+      this.isDragging = false;
+      this.$el.querySelector('.product-cards').style.cursor = 'grab';
+    },
+    drag(event) {
+      if (!this.isDragging) return;
+      const x = event.pageX - this.$el.querySelector('.product-cards').offsetLeft;
+      const scroll = x - this.startX;
+      this.$el.querySelector('.product-cards').scrollLeft = this.scrollLeft - scroll;
+    }
   },
 };
 </script>
@@ -95,10 +125,12 @@ export default {
 /* Container for product cards, using flexbox to align items horizontally */
 .product-cards {
   display: flex;
-  flex-wrap: wrap; /* Allow wrapping to the next line if space is insufficient */
+  flex-wrap: nowrap; /* Prevent wrapping to ensure horizontal layout */
   gap: 20px;
-  max-height: 600px; /* Set a max-height to create a scrollable area */
-  overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
+  overflow-x: auto; /* Horizontal scrolling when content exceeds container width */
+  padding-bottom: 10px; /* Optional for better scrolling */
+  cursor: grab; /* Show drag cursor */
+  scroll-snap-type: x mandatory; /* Snap scrolling behavior */
 }
 
 /* Individual product cards */
@@ -111,6 +143,7 @@ export default {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   flex-shrink: 0; /* Prevents shrinking to fit within the container */
+  scroll-snap-align: start; /* Ensure snapping of cards to the left */
 }
 
 .product-card:hover {
@@ -130,7 +163,6 @@ export default {
 .product-info {
   flex: 1;
   padding-left: 20px;
-  /* Increase width of product info to ensure it fits the content */
   max-width: 180px; /* Set max width for product info to make sure text fits */
 }
 

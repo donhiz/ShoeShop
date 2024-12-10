@@ -1,5 +1,6 @@
 <template>
   <div class="index-page">
+
     <!-- Video background -->
     <div class="video-background">
       <video autoplay loop muted playsinline>
@@ -11,6 +12,9 @@
 
     <!-- Content -->
     <div class="content">
+      <div class="logo">
+        <a href="/"><img src="/image/logo-transparent-frontend.png" width="125px" alt="Logo"></a>
+      </div>
       <h1>Welcome to the Shoe Shop!</h1>
       <p class="welcome-message">{{ welcomeMessage }}</p>
       <div class="cta">
@@ -36,6 +40,16 @@ export default {
 </script>
 
 <style scoped>
+
+.logo {
+  text-align: center; /* Center the logo */
+  margin: 20px 0;     /* Add some margin */
+}
+
+.logo img {
+  max-width: 100%;
+  height: auto;
+}
 /* Full-page background video */
 .index-page {
   display: flex;

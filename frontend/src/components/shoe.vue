@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <div class="logo">
+      <a href="/"><img src="/image/logo-transparent-frontend.png" width="125px" alt="Logo"></a>
+    </div>
     <h2 class="page-title">Shoe Shop</h2>
     <div v-if="isAdmin" class="admin-controls">
       <button @click="showAddProduct = !showAddProduct" class="toggle-button">Add New Product</button>
@@ -19,6 +22,9 @@
           <button type="submit" class="submit-button">Add Product</button>
         </form>
       </div>
+    </div>
+    <div>
+      <h1>Product Details</h1>
     </div>
 
     <ul class="product-list">
@@ -136,12 +142,14 @@ export default {
 };
 </script>
 <style>/* Expand the Add Product Form */
+/* Expand the Add Product Form */
 .add-product-form form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
   width: 100%;
-  max-width: 800px;
+  max-width: 900px; /* Adjusted max-width */
+  margin: 0 auto; /* Centering the form */
   padding: 20px;
   background-color: #f7f7f7;
   border-radius: 8px;
@@ -150,7 +158,7 @@ export default {
 
 .add-product-form input {
   width: 100%;
-  padding: 10px;
+  padding: 12px; /* Increased padding for better input size */
   font-size: 1rem;
   border-radius: 4px;
   border: 1px solid #ddd;
@@ -171,6 +179,13 @@ export default {
 
 .add-product-form button:hover {
   background-color: #45a049;
+}
+
+/* Make the form responsive on smaller screens */
+@media (max-width: 768px) {
+  .add-product-form form {
+    grid-template-columns: 1fr; /* Single column for smaller screens */
+  }
 }
 
 /* Other Styles */
@@ -207,25 +222,26 @@ export default {
 /* Product List - Horizontal Layout */
 .product-list {
   display: flex;
-  flex-wrap: wrap; /* Allows items to wrap to the next line when space is limited */
+  flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
   justify-content: flex-start; /* Align items to the left */
   gap: 20px;
-  max-height: 600px; /* Set a max height to trigger scrolling */
-  overflow-y: auto; /* Enables scrolling when the list exceeds the height */
+  overflow-x: auto; /* Enables horizontal scrolling when the list exceeds the width */
+  padding-bottom: 10px; /* Optional: Adds padding to ensure smooth scrolling */
 }
 
-/* Scrollable when there are more than 3 products */
 .product-list > li {
-  flex: 1 1 300px; /* Allow product cards to shrink and grow with a base size */
+  flex: 0 0 auto; /* Prevents shrinking and growing */
+  width: 300px; /* Adjust width for your card size */
+  max-height: 600px; /* Set max height for product cards */
 }
 
 /* Product Card */
 .product-card {
-  width: 300px; /* Increased width for more details */
+  width: 300px; /* Adjust the width as needed */
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px; /* Increased padding for spacing */
+  padding: 20px; /* Padding inside the card */
   text-align: left; /* Align content to the left */
   display: flex;
   flex-direction: column;
@@ -268,4 +284,6 @@ export default {
 .delete-button:hover {
   background-color: #e53935;
 }
+
+
 </style>
