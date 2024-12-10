@@ -3,14 +3,16 @@
     <!-- Video background -->
     <div class="video-background">
       <video autoplay loop muted>
-        <!-- Replace with your video URL -->
         <source src="../assets/shoevideo.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
-    <!-- Login Form -->
+
+    <!-- Login Form Section -->
     <div class="login-form">
+      <!-- headermessage -->
       <h2>{{ headerMessage }}</h2>
+      <!-- submit form login-->
       <form @submit.prevent="handleLogin">
         <div class="input-group">
           <label for="username">Username:</label>
@@ -19,6 +21,11 @@
         <div class="input-group">
           <label for="password">Password:</label>
           <input v-model="password" id="password" type="password" placeholder="Enter your password" required />
+        </div>
+        <div class="input-group">
+          <label>
+            <input v-model="rememberMe" type="checkbox" id="remember-me" /> Remember Me
+          </label>
         </div>
         <button type="submit">Login</button>
       </form>
@@ -45,8 +52,15 @@ export default {
     return {
       username: "",
       password: "",
+      rememberMe: false, // Tracks if "Remember Me" is checked
       errorMessage: null,
     };
+  },
+  mounted() {
+    // On component mount, load saved cookies if available
+    this.username = this.getCookie("username") || "";
+    this.password = this.getCookie("password") || "";
+    this.rememberMe = !!this.username; // Check the box if a username is saved
   },
   methods: {
     async handleLogin() {
@@ -74,6 +88,14 @@ export default {
         localStorage.setItem("Token", token);
         localStorage.setItem("role", role);
 
+        if (this.rememberMe) {
+          this.setCookie("username", this.username, 60); // Save username for 60 days
+          this.setCookie("password", this.password, 60); // Save password for 60 days
+        } else {
+          this.setCookie("username", "", -1); // Delete username cookie
+          this.setCookie("password", "", -1); // Delete password cookie
+        }
+
         if (role === "admin") {
           this.$router.push("/shoe");
         } else if (role === "read") {
@@ -85,6 +107,20 @@ export default {
         console.error("Error logging in:", error);
         this.errorMessage = "An error occurred during login.";
       }
+    },
+    setCookie(name, value, days) {
+      const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+      document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+    },
+    getCookie(name) {
+      const cookieArr = document.cookie.split("; ");
+      for (let cookie of cookieArr) {
+        const [key, value] = cookie.split("=");
+        if (key === name) {
+          return value;
+        }
+      }
+      return null;
     },
   },
 };
